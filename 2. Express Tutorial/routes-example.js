@@ -46,9 +46,7 @@ app.get("/product/:id", (req, res) => {
       label: "product-3",
     },
   ];
-  const getSingnleProduct = products.find(
-    (product) => product.id == productId
-  );
+  const getSingnleProduct = products.find((product) => product.id == productId);
   if (getSingnleProduct) {
     res.json(getSingnleProduct);
   } else {
