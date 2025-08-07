@@ -16,7 +16,7 @@ const router = express.Router();
 router.get("/books", getAllBooks);
 router.get("/book/:id", getSingleBookById);
 router.post("/add-book", addNewBook);
-router.update("/update-book/:id", updateBook);
+router.put("/update-book/:id", updateBook);
 router.delete("/delete-book/:id", deleteBook);
 
 module.exports = router;

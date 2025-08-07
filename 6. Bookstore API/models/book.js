@@ -3,18 +3,18 @@ const mongoose = require("mongoose");
 const BookSchema = new mongoose.Schema({
   title: {
     type: String,
-    require: [true, "Book title is requred"],
+    require: [true, "Book title is required"],
     trim: true,
     maxLength: [100, "Book title can not be more than 100 characters"],
   },
   author: {
     type: String,
-    require: [true, "Author name is requred"],
+    require: [true, "Author name is required"],
     trim: true,
   },
-  year: {
+  publish_year: {
     type: Number,
-    require: [true, "Publication year is requred"],
+    require: [true, "Publication year is required"],
     min: [1000, "Publication year must be greater than 1000"],
     max: [
       new Date().getFullYear(),
@@ -27,4 +27,4 @@ const BookSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Book",BookSchema);
+module.exports = mongoose.model("Book", BookSchema);

@@ -15,6 +15,12 @@ app.use(express.json());
 //routes here
 app.use("/api", bookRoutes);
 
+app.get("/",(req,res)=>{
+  res.json({
+    message: "hello world",
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server is now running on port ${PORT}`);
 });
