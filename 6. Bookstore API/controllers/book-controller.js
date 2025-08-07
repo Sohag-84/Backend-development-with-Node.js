@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const Book = require("../models/book");
 
 const getAllBooks = async (req, res) => {
@@ -11,7 +13,39 @@ const getAllBooks = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-const getSingleBookById = async (req, res) => {};
+
+const getSingleBookById = async (req, res) => {
+  try {
+    const getCurrentBookID = req.params.id;
+    // Check ID format is valid or not
+    if (!mongoose.Types.ObjectId.isValid(getCurrentBookID)) {
+      return res.status(400).json({
+        success: false,
+        message: "Your Id format is wrong!",
+      });
+    }
+    const bookDetailsByID = await Book.findById(getCurrentBookID);
+
+    if (!bookDetailsByID) {
+      return res.status(404).json({
+        success: false,
+        message: "Book not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: bookDetailsByID,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again",
+    });
+  }
+};
+
 const addNewBook = async (req, res) => {
   try {
     const newBookFormData = req.body;
