@@ -4,6 +4,7 @@ const connectToDB = require("./db");
 const authRoutes = require("./routes/auth-route");
 const homeRoutes = require("./routes/home-routes");
 const adminRoutes = require("./routes/admin-routes");
+const userRoutes = require("./routes/user-routes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api", homeRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is now running on port ${PORT}`);
