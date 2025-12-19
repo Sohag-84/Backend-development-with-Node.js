@@ -40,6 +40,59 @@ const getProductStats = async (req, res) => {
   }
 };
 
+const getProductAnalysis = async (req, res) => {
+  try {
+    const result = await Product.aggregate([
+      {
+        $match: {
+          category: "Electronics",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: {
+            $sum: "$price",
+          },
+          averagePrice: {
+            $avg: "$price",
+          },
+
+          maxPrice: {
+            $max: "$price",
+          },
+          minPrice: {
+            $min: "$price",
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0, //thats means id will be hide.but for 1 id will be shown
+          totalRevenue: 1,
+          averagePrice: 1,
+          maxPrice: 1,
+          minPrice: 1,
+          priceRange: {
+            $subtract: ["$maxPrice", "$minPrice"],
+          },
+        },
+      },
+    ]);
+
+    res.json({
+      status: true,
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Some error occured!",
+    });
+  }
+};
+
 const insertSampleProduct = async (req, res) => {
   try {
     const sampleProducts = [
@@ -143,4 +196,4 @@ const insertSampleProduct = async (req, res) => {
   }
 };
 
-module.exports = { insertSampleProduct, getProductStats };
+module.exports = { insertSampleProduct, getProductStats, getProductAnalysis };
