@@ -37,4 +37,51 @@ const createBook = async (req, res) => {
   }
 };
 
-module.exports = { createAuthor, createBook };
+const getAllBooks = async (req, res) => {
+  try {
+    const book = await Book.find().populate("author");
+    if (!book) {
+      return res.status(404).json({
+        status: false,
+        message: "Book is not found",
+      });
+    }
+
+    res.json({
+      status: true,
+      book,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: false,
+      message: "Some error occured",
+    });
+  }
+};
+
+getBookWithAuthor = async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id).populate("author");
+
+    if (!book) {
+      return res.status(404).json({
+        status: false,
+        message: "Book is not found",
+      });
+    }
+
+    res.json({
+      status: true,
+      book,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: false,
+      message: "Some error occured",
+    });
+  }
+};
+
+module.exports = { createAuthor, createBook, getBookWithAuthor, getAllBooks };
